@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx next build:*)",
+      "Bash(npx tsc:*)",
+      "Bash(pnpm add:*)",
+      "Bash(pnpm install:*)",
+      "Bash(find:*)",
+      "Bash(pnpm --filter web build:*)",
+      "Bash(pnpm --filter api build:*)"
+    ]
+  }
+}

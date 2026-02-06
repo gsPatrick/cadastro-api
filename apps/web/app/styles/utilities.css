@@ -1,0 +1,74 @@
+@layer utilities {
+  .animate-fade-up {
+    animation: fade-up 0.45s ease-out both;
+  }
+
+  .bg-soft-gradient {
+    background-color: var(--background);
+    background-image:
+      radial-gradient(circle at 10% 10%, rgba(255, 143, 100, 0.12), transparent 45%),
+      radial-gradient(circle at 90% 15%, rgba(59, 130, 246, 0.08), transparent 50%),
+      radial-gradient(circle at 50% 100%, rgba(255, 107, 53, 0.08), transparent 60%);
+  }
+
+  .bg-sheen {
+    background-size: 200% 200%;
+    animation: shimmer 6s ease infinite;
+  }
+
+  .surface-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .surface-glass {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid var(--border);
+    backdrop-filter: blur(6px);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .text-muted {
+    color: var(--gray-500);
+  }
+
+  .text-subtle {
+    color: var(--gray-700);
+  }
+
+  .shadow-soft {
+    box-shadow: var(--shadow-md);
+  }
+
+  .min-h-screen-dvh {
+    min-height: 100dvh;
+  }
+
+  .page-shell {
+    width: min(1200px, 100% - 2rem);
+    margin-inline: auto;
+  }
+
+  .toast-container {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    z-index: 200;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 400px;
+  }
+
+  .toast-progress {
+    animation: toastProgress 5s linear;
+  }
+
+  .content-visibility-auto {
+    content-visibility: auto;
+    contain-intrinsic-size: 72px;
+  }
+}
