@@ -4,6 +4,8 @@ import { Throttle } from '@nestjs/throttler';
 import { ConfigService } from '@nestjs/config';
 import { randomBytes } from 'crypto';
 import { AuthService } from './auth.service';
+import { HttpService } from '@nestjs/axios';
+import { firstValueFrom } from 'rxjs';
 import { z } from 'zod';
 import { LoginDto } from './dto/login.dto';
 
@@ -12,7 +14,8 @@ export class AuthController {
   constructor(
     private readonly authService: AuthService,
     private readonly configService: ConfigService,
-  ) {}
+    private readonly httpService: HttpService,
+  ) { }
 
   @Post('login')
   @HttpCode(200)
@@ -62,6 +65,10 @@ export class AuthController {
       sameSite: 'lax',
       secure: this.isProduction(),
     });
+
+    // Clear Satellite Session too
+    res.clearCookie('satellite_session');
+
     res.clearCookie(this.getCsrfCookieName(), {
       httpOnly: false,
       sameSite: 'lax',
@@ -94,6 +101,39 @@ export class AuthController {
       this.configService.get<string>('CSRF_COOKIE_NAME', { infer: true }) ??
       'csrf_token'
     );
+  }
+
+  @Post('validate-ticket') // Kept for internal use if needed
+  async validateTicket(@Body('token') token: string) {
+    // Proxy to Hub if needed, or this might not be needed if /liberar does the work
+  }
+
+  // --- SATELLITE HANDSHAKE ---
+  // GET /auth/liberar?token=...&next=...
+  @Post('liberar')
+  async liberar(
+    @Body('token') token: string,
+    @Res({ passthrough: true }) res: Response
+  ) {
+    const hubUrl = this.configService.get('CENTRAL_HUB_URL') || 'http://localhost:8000';
+
+    try {
+      const { data: userData } = await firstValueFrom(
+        this.httpService.post(`${hubUrl}/auth/validate-ticket`, { token })
+      );
+
+      // Set Session Cookie
+      res.cookie('satellite_session', `user:${userData.email}`, {
+        httpOnly: true,
+        sameSite: 'lax',
+        secure: this.isProduction(),
+        maxAge: 3600 * 1000, // 1 hour
+      });
+
+      return { ok: true, user: userData };
+    } catch (e) {
+      throw new HttpCode(403);
+    }
   }
 
   private isProduction() {

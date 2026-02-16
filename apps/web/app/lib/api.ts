@@ -23,7 +23,14 @@ export const apiFetch = async <T>(
       ...(options.headers ?? {}),
     },
     body: options.body ? JSON.stringify(options.body) : undefined,
+    credentials: 'include', // Ensure cookies are sent
   });
+
+  if (response.status === 401 || response.status === 403) {
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new Event("session-expired"));
+    }
+  }
 
   if (!response.ok) {
     const message = await response.text();

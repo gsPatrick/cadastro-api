@@ -21,6 +21,7 @@ import { MetricsModule } from './observability/metrics.module';
 import { MetricsMiddleware } from './observability/metrics.middleware';
 import { MaintenanceModule } from './maintenance/maintenance.module';
 import { TotvsModule } from './totvs/totvs.module';
+import { CentralAuthGuard } from './auth/guards/central-auth.guard';
 
 @Module({
   imports: [
@@ -86,6 +87,10 @@ import { TotvsModule } from './totvs/totvs.module';
     {
       provide: APP_GUARD,
       useClass: ThrottlerGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: CentralAuthGuard,
     },
   ],
 })

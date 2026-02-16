@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from 'next';
 import { Fraunces, Geist_Mono, Manrope } from 'next/font/google';
 import './globals.css';
 import { ServiceWorker } from './components/ServiceWorker';
+import { AuthGuard } from './components/AuthGuard';
+
 
 const manrope = Manrope({
   variable: '--font-manrope',
@@ -28,6 +30,8 @@ export const viewport: Viewport = {
   themeColor: '#E30613',
 };
 
+import { SessionExpiredModal } from './SessionExpiredModal';
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -38,11 +42,14 @@ export default function RootLayout({
       <body
         className={`${manrope.variable} ${fraunces.variable} ${geistMono.variable} antialiased`}
       >
-        <a href="#main-content" className="skip-link">
-          Pular para o conteudo principal
-        </a>
-        <ServiceWorker />
-        <main id="main-content">{children}</main>
+        <AuthGuard>
+          <a href="#main-content" className="skip-link">
+            Pular para o conteudo principal
+          </a>
+          <ServiceWorker />
+          <main id="main-content">{children}</main>
+          <SessionExpiredModal />
+        </AuthGuard>
       </body>
     </html>
   );
