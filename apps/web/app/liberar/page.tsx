@@ -15,9 +15,8 @@ function LiberarContent() {
 
         const runHandshake = async () => {
             try {
-                const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3333';
-
-                const res = await fetch(`${baseUrl}/api/auth/liberar`, {
+                // Use relative path for production compatibility
+                const res = await fetch(`/api/auth/liberar`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ token }),
