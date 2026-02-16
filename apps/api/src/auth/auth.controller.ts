@@ -1,4 +1,4 @@
-﻿import { Body, Controller, Get, HttpCode, Post, Req, Res } from '@nestjs/common';
+﻿import { Body, Controller, Get, ForbiddenException, UnauthorizedException, Post, Req, Res } from '@nestjs/common';
 import type { Request, Response } from 'express';
 import { Throttle } from '@nestjs/throttler';
 import { ConfigService } from '@nestjs/config';
@@ -132,7 +132,7 @@ export class AuthController {
 
       return { ok: true, user: userData };
     } catch (e) {
-      throw new HttpCode(403);
+      throw new ForbiddenException('Acesso negado');
     }
   }
 
@@ -144,7 +144,7 @@ export class AuthController {
   getMe(@Req() req: Request) {
     const token = req.cookies?.satellite_session;
     if (!token) {
-      throw new HttpCode(401);
+      throw new UnauthorizedException('Sessão expirada');
     }
     return { status: 'authenticated', user: token.split(':')[1] || token };
   }
