@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: '/api/:path*',
-        destination: 'https://api.amplo.app.br/:path*',
+        destination: 'http://127.0.0.1:8005/:path*',
       },
     ];
   },
