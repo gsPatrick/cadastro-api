@@ -1,17 +1,10 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 
-// Satellite 1 Backend URL (NestJS)
-const SATELLITE_API = "http://localhost:3001"; // NestJS usually 3000 or 3001. Assuming 3001 or configured via env? 
-// Based on typical monorepos, check if we need to set this dynammically. 
-// For now, I'll use relative path '/auth/liberar' if on same domain via proxy, or localhost if separated.
-// The api.ts uses NEXT_PUBLIC_API_BASE_URL.
-const useApiBase = true; // Use api.ts logic ideally.
-
-export default function LiberarScreen() {
+function LiberarContent() {
     const searchParams = useSearchParams();
     const router = useRouter();
     const token = searchParams.get("token");
@@ -22,10 +15,7 @@ export default function LiberarScreen() {
 
         const runHandshake = async () => {
             try {
-                // Using fetch directly to access the AuthController we just made
-                // The URL depends on how the frontend calls the backend. 
-                // api.ts uses `process.env.NEXT_PUBLIC_API_BASE_URL`.
-                const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3333'; // NestJS default often 3000/3333
+                const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3333';
 
                 const res = await fetch(`${baseUrl}/api/auth/liberar`, {
                     method: 'POST',
@@ -58,5 +48,18 @@ export default function LiberarScreen() {
                 Conectando ao Sistema de Cadastro...
             </p>
         </div>
+    );
+}
+
+export default function LiberarScreen() {
+    return (
+        <Suspense fallback={
+            <div className="fixed inset-0 flex flex-col items-center justify-center bg-white z-50">
+                <Loader2 className="h-12 w-12 text-red-600 animate-spin mb-4" />
+                <p className="text-sm text-gray-500 mt-2 text-center">Iniciando handshake...</p>
+            </div>
+        }>
+            <LiberarContent />
+        </Suspense>
     );
 }
