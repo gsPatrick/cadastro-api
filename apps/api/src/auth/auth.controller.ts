@@ -1,4 +1,4 @@
-﻿import { Body, Controller, HttpCode, Post, Req, Res } from '@nestjs/common';
+﻿import { Body, Controller, Get, HttpCode, Post, Req, Res } from '@nestjs/common';
 import type { Request, Response } from 'express';
 import { Throttle } from '@nestjs/throttler';
 import { ConfigService } from '@nestjs/config';
@@ -138,6 +138,15 @@ export class AuthController {
 
   private isProduction() {
     return this.configService.get('NODE_ENV') === 'production';
+  }
+
+  @Get('me')
+  getMe(@Req() req: Request) {
+    const token = req.cookies?.satellite_session;
+    if (!token) {
+      throw new HttpCode(401);
+    }
+    return { status: 'authenticated', user: token.split(':')[1] || token };
   }
 }
 
