@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
+import { Shield } from "lucide-react";
+import React from "react";
 
 const SYSTEM_ID = 3; // Sistema-cadastro-associacao
 const HUB_URL = "https://api.sbacem.com.br/apicentralizadora";
@@ -54,7 +56,7 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
                     <div className="relative mb-8 text-center">
                         <div className="absolute inset-0 bg-blue-500 rounded-full blur-2xl opacity-20 animate-ping" />
                         <div className="relative h-20 w-20 bg-slate-800 rounded-2xl flex items-center justify-center border border-white/10 shadow-2xl mx-auto">
-                            <div className="h-10 w-10 border-2 border-white/10 border-t-blue-500 rounded-full animate-spin" />
+                            <Shield className="h-10 w-10 text-blue-500 animate-pulse" />
                         </div>
                     </div>
 

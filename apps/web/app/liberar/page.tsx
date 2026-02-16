@@ -2,7 +2,7 @@
 
 import { useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { Loader2 } from "lucide-react";
+import { Loader2, Shield } from "lucide-react";
 
 function LiberarContent() {
     const searchParams = useSearchParams();
@@ -50,7 +50,7 @@ function LiberarContent() {
                 <div className="relative mb-8 text-center">
                     <div className="absolute inset-0 bg-blue-500 rounded-full blur-2xl opacity-20 animate-ping" />
                     <div className="relative h-20 w-20 bg-slate-800 rounded-2xl flex items-center justify-center border border-white/10 shadow-2xl mx-auto">
-                        <img src="/sbacem.png" alt="Logo" className="h-10 w-auto opacity-80 animate-pulse" />
+                        <Shield className="h-10 w-10 text-blue-500 animate-pulse" />
                     </div>
                 </div>
 
