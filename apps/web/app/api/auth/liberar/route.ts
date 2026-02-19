@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const HUB_URL = process.env.CENTRAL_HUB_URL || 'https://api.sbacem.com.br/apicentralizadora';
+const HUB_URL = 'https://hub.sbacem.app.br';
 
 export async function POST(req: NextRequest) {
     try {
@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
         response.cookies.set('satellite_session', `token:${userData.access_token}`, {
             httpOnly: true,
             sameSite: 'lax',
-            secure: false, // amplo.app.br uses HTTP
+            secure: true, // Amplo is now HTTPS
             maxAge: 3600, // 1 hour
             path: '/',
         });
