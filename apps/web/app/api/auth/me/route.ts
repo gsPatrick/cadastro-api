@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const HUB_URL = process.env.CENTRAL_HUB_URL || 'https://api.sbacem.com.br/apicentralizadora';
+const HUB_URL = 'https://hub.sbacem.app.br';
 
 export async function GET(req: NextRequest) {
     const sessionCookie = req.cookies.get('satellite_session');
