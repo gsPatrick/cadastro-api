@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { CircleAlert } from "lucide-react";
 
-const HUB_VERIFY_URL = "http://localhost:8000/auth/verify-session-browser";
+const HUB_VERIFY_URL = "https://api.sbacem.com.br/apicentralizadora/auth/verify-session-browser";
 const SYSTEM_ID = "3";
 
 export function SessionExpiredModal() {
