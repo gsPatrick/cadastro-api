@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const HUB_URL = 'https://hub.sbacem.app.br';
+const HUB_URL = 'https://api.sbacem.com.br/apicentralizadora';
 
 export async function POST(req: NextRequest) {
     try {

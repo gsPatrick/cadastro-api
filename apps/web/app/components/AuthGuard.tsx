@@ -6,7 +6,7 @@ import { Shield } from "lucide-react";
 import React from "react";
 
 const SYSTEM_ID = 3; // Sistema-cadastro-associacao
-const HUB_URL = "https://hub.sbacem.app.br";
+const HUB_URL = "https://api.sbacem.com.br/apicentralizadora";
 
 export function AuthGuard({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();

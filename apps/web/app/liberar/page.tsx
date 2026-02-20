@@ -8,7 +8,18 @@ function LiberarContent() {
     const searchParams = useSearchParams();
     const router = useRouter();
     const token = searchParams.get("token");
-    const nextPath = searchParams.get("next") || "/";
+    const nextPathRaw = searchParams.get("next") || "/";
+
+    // Normalize absolute URLs to relative paths if they match the satellite domain
+    let nextPath = nextPathRaw;
+    if (nextPathRaw.startsWith('http')) {
+        try {
+            const url = new URL(nextPathRaw);
+            nextPath = url.pathname + url.search;
+        } catch (e) {
+            nextPath = "/";
+        }
+    }
 
     useEffect(() => {
         if (!token) return;
