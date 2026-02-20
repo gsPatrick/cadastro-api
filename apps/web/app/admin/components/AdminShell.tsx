@@ -38,10 +38,9 @@ export const AdminShell = ({ children }: { children: React.ReactNode }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
-    if (pathname?.startsWith('/admin/login')) return;
     adminFetchWithRefresh<ProposalSummary[]>('/admin/proposals?status=SUBMITTED')
       .then((items) => setSubmittedCount(items.length))
-      .catch(() => {});
+      .catch(() => { });
   }, [pathname]);
 
   useEffect(() => {
@@ -66,7 +65,7 @@ export const AdminShell = ({ children }: { children: React.ReactNode }) => {
     navigator.serviceWorker.ready
       .then((reg) => reg.pushManager.getSubscription())
       .then((sub) => setPushEnabled(!!sub))
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
   useEffect(() => {
@@ -137,9 +136,7 @@ export const AdminShell = ({ children }: { children: React.ReactNode }) => {
     }
   }, [pushEnabled, pushSupported]);
 
-  if (pathname?.startsWith('/admin/login')) {
-    return <>{children}</>;
-  }
+
 
   const SidebarContent = ({ onClose }: { onClose?: () => void }) => (
     <div className="flex h-full flex-col">
@@ -230,7 +227,7 @@ export const AdminShell = ({ children }: { children: React.ReactNode }) => {
             type="button"
             onClick={async () => {
               await logoutAdmin();
-              router.push('/admin/login');
+              router.push('/');
             }}
             className="flex items-center gap-2 text-sm font-semibold text-[color:var(--gray-500)] hover:text-[color:var(--gray-900)]"
           >
